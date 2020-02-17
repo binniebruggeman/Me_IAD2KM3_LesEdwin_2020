@@ -12,13 +12,16 @@ void ofApp::setup(){
         //Moet aangemaakt worden omdat je een pointer gebruikt. Als je er geen SQLITE::OPEN_READWRITE achter zet, dus alleen movieDB, dan maakt hij hem automatisch read only; SQLite::OPEN_READONLY
         db = new SQLite::Database(movieDB, SQLite::OPEN_READWRITE);
         
-        //Om SQL-statements naar database te sturen, dit levert een lijst op met de namen van alle theatres
-        SQLite::Statement query(*db, "SELECT name FROM theatres");
+        //Om SQL-statements naar database te sturen. Hier vraag je naar de namen van de theatres en de titles van de movies, met als voorwaarde dat de code van de movies uit de tabel "movies" gelijk is aan de code van de movies uit de tabel "theatres". Op die manier krijg je alleen de namen van theaters te zien die een film draaien, met bijbehorende titel van de film die ze draaien.
+        SQLite::Statement query(*db, "SELECT name, title FROM movies, theatres WHERE theatres.movie == movies.code;");
         //Loop; geeft een volgende rij terug, totdat je bij laatste rij aangekomen bent (zonder dit stukje code krijg je je resultaten niet te zien). Dus: geef me de waarde van de huidige regel.
-        while (query.executeStep()) {
-                        ofLog() << query.getColumn("name") << std::endl;
-                    }
+                while (query.executeStep()) {
+                    ofLog() << query.getColumn("name") << ": "
+                    << query.getColumn("title")
+                    << std::endl;
+                }
         
+
     } catch(SQLite::Exception& e) {
         ofLog() << e.getErrorStr() << std::endl;
     }
