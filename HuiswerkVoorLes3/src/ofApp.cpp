@@ -7,7 +7,7 @@ void ofApp::setup(){
     try {
         
         //Deze functie zoekt zelf het juiste path erbij, zodat je niet het hele path hoeft te typen
-        string movieDB = ofToDataPath("kmovies.sqlite");
+        string movieDB = ofToDataPath("movies.sqlite");
         
         //Moet aangemaakt worden omdat je een pointer gebruikt. Als je er geen SQLITE::OPEN_READWRITE achter zet, dus alleen movieDB, dan maakt hij hem automatisch read only; SQLite::OPEN_READONLY
         db = new SQLite::Database(movieDB, SQLite::OPEN_READWRITE);
@@ -30,8 +30,8 @@ void ofApp::setup(){
         while (query2.executeStep()) { //
             ofLog() << query2.getColumn("code") << " "
             << query2.getColumn("title")
-            << query2.getColumn("rating") <<
-            std::endl;
+            << query2.getColumn("rating")
+            << std::endl;
         }
         
     } catch(SQLite::Exception& e) {
