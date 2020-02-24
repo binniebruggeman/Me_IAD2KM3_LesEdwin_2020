@@ -31,9 +31,9 @@ void ofApp::draw(){
     ofDrawCircle(500,100, popZHLerpValue * 5);
     
     ofSetColor(ofColor::black);
-    //lerp in steps of 10%
+    //lerp in steps of 10%, make lerpYear into an int, so that you won't get decimal values for the years
     lerpYear = ofLerp(lerpYear, years[selectedYearIndex], 0.1);
-    font.drawString(ofToString(lerpYear), 200, 500);
+    font.drawString(ofToString((int)lerpYear), 200, 500);
     
     
 }
@@ -46,6 +46,7 @@ void ofApp::keyPressed(int key){
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
     selectedYearIndex = ofMap(x, 0, ofGetWidth(), 0, 5);
+    //doe een select om data uit database te halen
 
 }
 
