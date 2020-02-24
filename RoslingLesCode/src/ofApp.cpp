@@ -3,6 +3,9 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetCircleResolution(50);
+    
+    //Upload a font (ttf file) into the bin/data directory, in this case I uploaded a verdana font
+    font.load("verdana.ttf", 64);
 }
 
 //--------------------------------------------------------------
@@ -20,6 +23,9 @@ void ofApp::draw(){
     
     ofSetColor(ofColor::red);
     ofDrawCircle(500,100, population_ZH[selectedYearIndex] * 5);
+    
+    ofSetColor(ofColor::black);
+    font.drawString(ofToString(years[selectedYearIndex]), 200, 500);
 }
 
 //--------------------------------------------------------------

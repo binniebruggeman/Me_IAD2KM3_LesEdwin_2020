@@ -13,6 +13,9 @@ class ofApp : public ofBaseApp{
 		void mouseMoved(int x, int y );
 
 private:
+    //Variable with the name font, in which we will load the font we put in bin/data directory
+    ofTrueTypeFont font;
+    
     int selectedYearIndex = 0;
     
     int years[5] = {1820, 1910, 1945, 1968, 2005};
