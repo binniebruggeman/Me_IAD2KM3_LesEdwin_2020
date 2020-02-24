@@ -22,5 +22,13 @@ private:
     int population_AU[5] = {5, 7, 12, 24, 32};
     int population_NL[5] = {8, 7, 9, 11, 17};
     int population_ZH[5] = {15, 20, 18, 34, 62};
+    
+    float lerpYear;
+    float popAULerpValue;
+    float popNLLerpValue;
+    float popZHLerpValue;
+
+    
+    
 		
 };

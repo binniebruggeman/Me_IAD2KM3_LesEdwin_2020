@@ -15,17 +15,27 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
+    
+    //Instead of jumping from 1 value to the other, it will gradually go from 1 value to the other in steps of 5%
+    popNLLerpValue = ofLerp(popNLLerpValue, population_NL[selectedYearIndex], 0.05);
     ofSetColor(ofColor::orange);
-    ofDrawCircle(100,100, population_NL[selectedYearIndex] * 5);
+    ofDrawCircle(100,100, popNLLerpValue * 5);
     
+    popAULerpValue = ofLerp(popAULerpValue, population_AU[selectedYearIndex], 0.05);
     ofSetColor(ofColor::yellow);
-    ofDrawCircle(300,100, population_AU[selectedYearIndex] * 5);
+    ofDrawCircle(300,100, popAULerpValue * 5);
     
+    popZHLerpValue = ofLerp(popZHLerpValue, population_ZH[selectedYearIndex], 0.05);
     ofSetColor(ofColor::red);
-    ofDrawCircle(500,100, population_ZH[selectedYearIndex] * 5);
+    ofDrawCircle(500,100, popZHLerpValue * 5);
     
     ofSetColor(ofColor::black);
-    font.drawString(ofToString(years[selectedYearIndex]), 200, 500);
+    //lerp in steps of 10%
+    lerpYear = ofLerp(lerpYear, years[selectedYearIndex], 0.1);
+    font.drawString(ofToString(lerpYear), 200, 500);
+    
+    
 }
 
 //--------------------------------------------------------------
