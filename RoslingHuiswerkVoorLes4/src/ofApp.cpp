@@ -106,7 +106,8 @@ void ofApp::mouseMoved(int x, int y ){
     while (query.executeStep()) { //
         ofLog() << query.getColumn("year") << std::endl;
         lerpYear= ofLerp(lerpYear, query.getColumn("year").getInt(), 0.1);
-        lerpYear = ofMap(x, 0, ofGetWidth(), 0, 5);
+        selectedYearIndex = lerpYear;
+        selectedYearIndex = ofMap(x, 0, ofGetWidth(), 0, 5);
     }
 
 }
