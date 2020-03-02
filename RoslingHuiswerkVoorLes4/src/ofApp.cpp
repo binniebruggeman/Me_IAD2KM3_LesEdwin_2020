@@ -60,25 +60,25 @@ void ofApp::draw(){
             << query.getColumn("zh") << std::endl;
             
             //Om een gelijkmatigere overgang te verkrijgen van de ene naar de andere waarde, in dit geval in stapjes van 5%. Lerp rekent in dit geval bij ieder stapje opnieuw 5% van de waarde uit.
-            popNLLerpValue = ofLerp(popNLLerpValue, query.getColumn("nl")[selectedYearIndex], 0.05);
+            popNLLerpValue = ofLerp(popNLLerpValue, query.getColumn("nl").getInt(), 0.05);
             ofSetColor(ofColor::orange);
             ofDrawCircle(100,100, popNLLerpValue * 5);
             
-            popAULerpValue = ofLerp(popAULerpValue, query.getColumn("au")[selectedYearIndex], 0.05);
+            popAULerpValue = ofLerp(popAULerpValue, query.getColumn("au").getInt(), 0.05);
             ofSetColor(ofColor::yellow);
             ofDrawCircle(300,100, popAULerpValue * 5);
             
-            popZHLerpValue = ofLerp(popZHLerpValue, query.getColumn("zh")[selectedYearIndex], 0.05);
+            popZHLerpValue = ofLerp(popZHLerpValue, query.getColumn("zh").getInt(), 0.05);
             ofSetColor(ofColor::red);
             ofDrawCircle(500,100, popZHLerpValue * 5);
             
             ofSetColor(ofColor::black);
             //lerp in steps of 10%, make lerpYear into an int, so that you won't get decimal values for the years
-            lerpYear = ofLerp(lerpYear, query.getColumn("year")[selectedYearIndex], 0.1);
+            lerpYear = ofLerp(lerpYear, query.getColumn("year").getInt(), 0.1);
             font.drawString(ofToString((int)lerpYear), 200, 500);
         }
         
-       
+        
         
     } catch(SQLite::Exception& e) {
         ofLog() << e.getErrorStr() << std::endl;
@@ -97,9 +97,16 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    selectedYearIndex = ofMap(x, 0, ofGetWidth(), 0, 5);
-    //doe een select om data uit database te halen
     
+    
+    //doe een select om data uit database te halen
+    //Om SQL-statements naar database te sturen. in dit geval vraag je alle informatie uit de tabel "population" op
+    SQLite::Statement query(*db, "SELECT * FROM population");
+    
+    while (query.executeStep()) { //
+        ofLog() << query.getColumn("year") << std::endl;
+        lerpYear = ofLerp(lerpYear, query.getColumn("year").getInt(), 0.1);
+        lerpYear = ofMap(x, 0, ofGetWidth(), 0, 5);
+    }
+
 }
-
-

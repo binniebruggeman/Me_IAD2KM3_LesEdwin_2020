@@ -22,10 +22,11 @@ private:
     
     int selectedYearIndex = 0;
     
-    float lerpYear;
-    float popAULerpValue;
-    float popNLLerpValue;
-    float popZHLerpValue;
+    //Deze data wordt uit de database gehaald/opgevraagd
+    int lerpYear;
+    int popAULerpValue;
+    int popNLLerpValue;
+    int popZHLerpValue;
     
     
     
