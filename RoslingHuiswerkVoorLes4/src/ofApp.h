@@ -19,14 +19,14 @@ private:
     
     //Variabele met de naam "font", waarin je het font laadt (ttf bestand). dat je in de bin/data folder van deze app hebt gezet, in dit geval verdana.ttf
     ofTrueTypeFont font;
-    
-    int selectedYearIndex = 0;
+    int years[5] = {1820, 1910, 1945, 1968, 2005};
+    int yearIndex = 0;
     
     //Deze data wordt uit de database gehaald/opgevraagd
-    int lerpYear;
-    int popAULerpValue;
-    int popNLLerpValue;
-    int popZHLerpValue;
+    float lerpYear;
+    float popAULerpValue;
+    float popNLLerpValue;
+    float popZHLerpValue;
     
     
     

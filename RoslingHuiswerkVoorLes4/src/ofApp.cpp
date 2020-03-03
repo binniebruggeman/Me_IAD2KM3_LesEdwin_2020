@@ -12,10 +12,10 @@ void ofApp::setup(){
     try {
         
         //Deze functie zoekt zelf het juiste path erbij, zodat je niet het hele path hoeft te typen
-        string roslingDB = ofToDataPath("rosling_three.sqlite");
+        string databasePath = ofToDataPath("rosling_three.sqlite", true); //true is zodat hij een absoluut path ervan maakt, om zeker te weten dat hij juiste path pakt
         
         //Moet aangemaakt worden omdat je een pointer gebruikt. Als je er geen SQLITE::OPEN_READWRITE achter zet, dus alleen movieDB, dan maakt hij hem automatisch read only; SQLite::OPEN_READONLY
-        db = new SQLite::Database(roslingDB, SQLite::OPEN_READWRITE);
+        db = new SQLite::Database(databasePath, SQLite::OPEN_READWRITE);
         
         //Om SQL-statements naar database te sturen. in dit geval vraag je alle informatie uit de tabel "population" op
         SQLite::Statement query(*db, "SELECT * FROM population");
@@ -47,11 +47,13 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    int year = years[yearIndex];
+    ofLog() << "year=" << year << endl;
     
     //Het stukje "try {} catch() {}"-code zorgt ervoor dat je errors in een leesbaar stukje tekst terug krijgt. Je eigen code stop je tussen de {} van het try-gedeelte.
     try {
         //Om SQL-statements naar database te sturen. in dit geval vraag je alle informatie uit de tabel "population" op
-        SQLite::Statement query(*db, "SELECT * FROM population");
+        SQLite::Statement query(*db, "SELECT * FROM population WHERE year=" + ofToString(year));
         //Loop; geeft een volgende rij terug, totdat je bij laatste rij aangekomen bent (zonder dit stukje code krijg je je resultaten niet te zien). Dus: geef me de waarde van de huidige regel.
         while (query.executeStep()) { //
             ofLog() << query.getColumn("year") << " "
@@ -74,8 +76,8 @@ void ofApp::draw(){
             
             ofSetColor(ofColor::black);
             //lerp in steps of 10%, make lerpYear into an int, so that you won't get decimal values for the years
-            lerpYear = ofLerp(lerpYear, query.getColumn("year").getInt(), 0.1);
-            font.drawString(ofToString((int)lerpYear), 200, 500);
+            lerpYear = ofLerp(lerpYear, years[yearIndex], 0.1);
+            font.drawString(ofToString((int) lerpYear), 200, 500);
         }
         
         
@@ -97,17 +99,7 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    
-    
+    yearIndex = ofMap(x, 0, ofGetWidth(), 0, 5);
     //doe een select om data uit database te halen
-    //Om SQL-statements naar database te sturen. in dit geval vraag je alle informatie uit de tabel "population" op
-    SQLite::Statement query(*db, "SELECT * FROM population");
     
-    while (query.executeStep()) { //
-        ofLog() << query.getColumn("year") << std::endl;
-        lerpYear= ofLerp(lerpYear, query.getColumn("year").getInt(), 0.1);
-        selectedYearIndex = lerpYear;
-        selectedYearIndex = ofMap(x, 0, ofGetWidth(), 0, 5);
-    }
-
 }
